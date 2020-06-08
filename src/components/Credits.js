@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import AccountBalance from "./AccountBalance";
 import axios from "axios";
 
-class Debits extends Component {
+class Credits extends Component {
   constructor() {
     super();
     this.state = {
-      debits: [],
+      credits: [],
       id: "",
       description: "",
       amount: null,
@@ -17,10 +17,10 @@ class Debits extends Component {
 
   componentDidMount() {
     axios
-      .get("https://moj-api.herokuapp.com/debits")
+      .get("https://moj-api.herokuapp.com/credits")
       .then((response) => {
         const data = response.data;
-        this.setState({ debits: data });
+        this.setState({ credits: data });
       })
       .catch((error) => {
         console.log(error);
@@ -39,11 +39,11 @@ class Debits extends Component {
     }
   };
 
-  addDebit = (e) => {
+  addCredit = (e) => {
     if (this.state.description !== "" && this.state.amount != null) {
       e.preventDefault();
 
-      const debitInfo = this.state.debits;
+      const creditInfo = this.state.credits;
 
       const newBalance =
         this.props.accountBalance - parseInt(this.state.amount);
@@ -57,7 +57,7 @@ class Debits extends Component {
         date,
       });
 
-      debitInfo.unshift({
+      creditInfo.unshift({
         id,
         description: this.state.description,
         amount: this.state.amount,
@@ -65,7 +65,7 @@ class Debits extends Component {
       });
 
       this.setState({
-        debits: debitInfo,
+        credits: creditInfo,
       });
     } else {
       e.preventDefault();
@@ -75,11 +75,11 @@ class Debits extends Component {
 
   render() {
     return (
-      <div style={debitStyle}>
-        <h1>Debits</h1>
+      <div style={creditStyle}>
+        <h1>Credits</h1>
         <AccountBalance accountBalance={this.props.accountBalance} />
         <br />
-        <form onSubmit={this.addDebit}>
+        <form onSubmit={this.addCredit}>
           <input
             value={this.state.description}
             onChange={this.handleDescription}
@@ -90,7 +90,7 @@ class Debits extends Component {
             onChange={this.handleAmount}
             placeholder="Enter Amount"
           ></input>
-          <button>Add Debit</button>
+          <button>Add Credit</button>
         </form>
         <br />
         <Link to="/">
@@ -98,7 +98,7 @@ class Debits extends Component {
         </Link>
         <br />
         <br />
-        {this.state.debits.map((data) => {
+        {this.state.credits.map((data) => {
           return (
             <div style={outputStyle}>
               <p>{data.description}</p>
@@ -112,7 +112,7 @@ class Debits extends Component {
   }
 }
 
-const debitStyle = {
+const creditStyle = {
   textAlign: "center",
 };
 
@@ -121,4 +121,4 @@ const outputStyle = {
   background: "lightgrey",
 };
 
-export default Debits;
+export default Credits;

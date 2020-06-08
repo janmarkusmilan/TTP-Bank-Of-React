@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import LogIn from "./components/LogIn";
 import Debits from "./components/Debits";
+import Credits from "./components/Credits";
 
 import "./App.css";
 
@@ -52,6 +53,12 @@ class App extends Component {
         updateBalance={this.updateBalance}
       />
     );
+    const CreditsComponent = () => (
+      <Credits
+        accountBalance={this.state.accountBalance}
+        updateBalance={this.updateBalance}
+      />
+    );
 
     return (
       <Router>
@@ -60,6 +67,7 @@ class App extends Component {
           <Route exact path="/userProfile" render={UserProfileComponent} />
           <Route exact path="/login" render={LogInComponent} />
           <Route exact path="/debits" render={DebitsComponent} />
+          <Route exact path="/credits" render={CreditsComponent} />
         </div>
       </Router>
     );
