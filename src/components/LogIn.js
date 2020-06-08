@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class LogIn extends Component {
   constructor() {
@@ -51,6 +52,7 @@ class LogIn extends Component {
           </div>
           <button>Log In</button>
         </form>
+        <Link to="/">Back To Home</Link>
       </div>
     );
   }

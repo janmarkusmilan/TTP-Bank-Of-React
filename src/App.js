@@ -4,18 +4,31 @@ import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import LogIn from "./components/LogIn";
 import Debits from "./components/Debits";
-import Credits from "./components/Credits";
+import axios from "axios";
+
+import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      accountBalance: 14568.27,
+      accountBalance: 0, //14568.27
+      debits: [],
       currentUser: {
         userName: "bob_loblaw",
         memberSince: "08/23/99",
       },
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get("https://moj-api.herokuapp.com/debits")
+      .then((response) => {
+        const data = response.data;
+        this.setState({ debits: data });
+      })
+      .catch((err) => console.log(err));
   }
 
   mockLogIn = (logInInfo) => {
@@ -41,17 +54,16 @@ class App extends Component {
         {...this.props}
       />
     );
+
     const DebitsComponent = () => <Debits />;
-    const CreditsComponent = () => <Credits />;
 
     return (
       <Router>
         <div>
           <Route exact path="/" render={HomeComponent} />
           <Route exact path="/userProfile" render={UserProfileComponent} />
-          <Route exact path="/login" render={LogInComponent} />
+          <Route exact path="/logIn" render={LogInComponent} />
           <Route exact path="/debits" render={DebitsComponent} />
-          <Route exact path="/credits" render={CreditsComponent} />
         </div>
       </Router>
     );
