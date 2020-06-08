@@ -4,16 +4,15 @@ import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import LogIn from "./components/LogIn";
 import Debits from "./components/Debits";
-import axios from "axios";
+import Credits from "./components/Credits";
 
 import "./App.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      accountBalance: 0, //14568.27
-      debits: [],
+      accountBalance: 14568.27,
       currentUser: {
         userName: "bob_loblaw",
         memberSince: "08/23/99",
@@ -21,20 +20,14 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get("https://moj-api.herokuapp.com/debits")
-      .then((response) => {
-        const data = response.data;
-        this.setState({ debits: data });
-      })
-      .catch((err) => console.log(err));
-  }
-
   mockLogIn = (logInInfo) => {
     const newUser = { ...this.state.currentUser };
     newUser.userName = logInInfo.userName;
     this.setState({ currentUser: newUser });
+  };
+
+  updateBalance = (newBalance) => {
+    this.setState({ accountBalance: newBalance });
   };
 
   render() {
@@ -54,16 +47,27 @@ class App extends Component {
         {...this.props}
       />
     );
-
-    const DebitsComponent = () => <Debits />;
+    const DebitsComponent = () => (
+      <Debits
+        accountBalance={this.state.accountBalance}
+        updateBalance={this.updateBalance}
+      />
+    );
+    const CreditsComponent = () => (
+      <Credits
+        accountBalance={this.state.accountBalance}
+        updateBalance={this.updateBalance}
+      />
+    );
 
     return (
       <Router>
         <div>
           <Route exact path="/" render={HomeComponent} />
           <Route exact path="/userProfile" render={UserProfileComponent} />
-          <Route exact path="/logIn" render={LogInComponent} />
+          <Route exact path="/login" render={LogInComponent} />
           <Route exact path="/debits" render={DebitsComponent} />
+          <Route exact path="/credits" render={CreditsComponent} />
         </div>
       </Router>
     );

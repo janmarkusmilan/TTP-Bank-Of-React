@@ -35,10 +35,11 @@ class LogIn extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <div style={loginStyle}>
+        <h1>Login</h1>
+        <form onSubmit={this.handleSubmit} style={formStyle}>
           <div>
-            <label htmlFor="userName">User Name</label>
+            <label>Username </label>
             <input
               type="text"
               name="userName"
@@ -47,15 +48,27 @@ class LogIn extends Component {
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label>Password </label>
             <input type="password" name="password" />
           </div>
+          <br />
           <button>Log In</button>
         </form>
-        <Link to="/">Back To Home</Link>
+        <br />
+        <Link to="/">
+          <button>Back To Home</button>
+        </Link>
       </div>
     );
   }
 }
+
+const formStyle = {
+  marginTop: "10px",
+};
+
+const loginStyle = {
+  textAlign: "center",
+};
 
 export default LogIn;
